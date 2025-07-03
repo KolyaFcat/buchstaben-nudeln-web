@@ -13,7 +13,7 @@ class Nuudel_game():
         output:
             nuudel_word: str
         """
-        pass
+        return 'ГИРТ'
 
     def check_answer(self, answer_str):
         """
@@ -23,7 +23,7 @@ class Nuudel_game():
         output:
             score: int/None
         """
-        pass
+        return 100
 
 if __name__ == "__main__":
     app = create_app()

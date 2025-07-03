@@ -6,6 +6,8 @@
   <title>{% block title %}Nuudel{% endblock %}</title>
   <link href="static/css/bootstrap.min.css" rel="stylesheet">
   <link href="static/css/main_css.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/bootstrap-icons.css') }}" rel="stylesheet">
+
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
@@ -15,7 +17,14 @@
         <li class="nav-item"><a class="nav-link" href="/">Главная</a></li>
         <li class="nav-item"><a class="nav-link" href="/play">Играть</a></li>
         <li class="nav-item"><a class="nav-link" href="/rating">Рейтинг</a></li>
-        <li class="nav-item"><a class="nav-link" href="/user">Профиль</a></li>
+        {% if g.user %}
+          <li class="nav-item"><a class="nav-link" href="/user">Профиль</a></li>
+          <li class="nav-item"><a class="nav-link text-danger" href="/logout">
+            <i class="bi bi-box-arrow-right"></i> Выход
+          </a></li>
+        {% else %}
+          <li class="nav-item"><a class="nav-link" href="/login">Войти</a></li>
+        {% endif %}
       </ul>
     </div>
   </nav>

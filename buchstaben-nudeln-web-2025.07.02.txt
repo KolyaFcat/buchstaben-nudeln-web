@@ -1,0 +1,23 @@
+.
+├── app.py
+├── env
+├── home.jpg
+├── instance
+│   └── nuudel.db
+├── nuudel_app
+│   ├── __init__.py
+│   ├── config.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── routes.py
+│   ├── static
+│   └── templates
+│       ├── base.html
+│       ├── home.html
+│       ├── login.html
+│       ├── nuudel_play.html
+│       ├── user_page.html
+│       └── user_table_page.html
+├── nuudel_game.py
+├── pages.jpg
+└── requirements.txt
