@@ -7,7 +7,7 @@ from functools import wraps
 from nuudel_app.nuudel_game import Nuudel_game
 
 app = create_app()
-game = Nuudel_game()  # Initialize the game instance
+app.game = Nuudel_game()  # Initialize the game instance
 
 @app.before_request
 def load_logged_in_user():
@@ -70,7 +70,9 @@ def login():
             try:
                 user_login = User.query.filter_by(email=email).first()
             except:
-                return render_template("login.html", error="Неверный email")
+                return render_template("login.html", error="Ошибка базы данных")
+            if not user_login:
+                return render_template("login.html", error="Пользователь не найден")
             if check_password_hash(user_login.password, password):
                 session.clear()
                 session["user_id"] = user_login.id
@@ -116,7 +118,7 @@ def play():
         return render_template("home.html", feedback="Выберите тему для игры!")
 
     # topic = "animals"
-    scrambled_word = game.get_nuudel_word(category)
+    scrambled_word = app.game.get_nuudel_word(category)
     etalon = 'ТИГР'
     return render_template("nuudel_play.html", scrambled_word=scrambled_word, etalon=etalon)
 
