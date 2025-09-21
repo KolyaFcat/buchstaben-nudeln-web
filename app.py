@@ -73,6 +73,10 @@ def login():
             confirm_password = request.form.get("confirm", "")
             try:
                 user_in_db = User.query.filter_by(email=email).first()
+                if user_in_db and user_in_db.email_confirmed == False:
+                    send_confirmation_email(user_in_db.email)
+                    flash('Вам отправлен email, перейдите по ссылке для активации аккаунта', 'alert alert-info mt-3')
+                    return redirect(url_for('home'))
                 if user_in_db:
                     return render_template("login.html", feedback=f"Ползователь с {email} уже существует!")
             except:
@@ -186,13 +190,15 @@ def confirm_email(token):
         )
 
     except SignatureExpired: 
-        return render_template("login.html", error='Срок действия ссылки истек. Пожалуйста, запросите новую.')
+        session.clear()
+        flash('Срок действия ссылки истек. Пожалуйста, зарегистрируйтесь ещё раз.', 'alert alert-danger mt-3')
+        return redirect(url_for('login'))
     except (BadTimeSignature, Exception):
-        flash('Неверная или поврежденная ссылка для подтверждения.', 'danger')
+        flash('Неверная или поврежденная ссылка для подтверждения.', 'alert alert-danger mt-3')
         return redirect(url_for('login'))
     user = User.query.filter_by(email=email).first_or_404()
     if user.email_confirmed:
-        flash('Аккаунт уже подтвержден.', 'info')
+        flash('Аккаунт уже подтвержден.', 'alert alert-info mt-3')
     else:
         user.email_confirmed = True
         db.session.commit()
