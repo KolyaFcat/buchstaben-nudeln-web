@@ -4,8 +4,8 @@ import os
 load_dotenv()
 
 class Config:
-    SERVER_NAME = 'localhost:5000'
-    PREFERRED_URL_SCHEME = 'http'
+    SERVER_NAME = os.getenv("SERVER_NAME", 'localhost:5000')
+    PREFERRED_URL_SCHEME = os.getenv("PREFERRED_URL_SCHEME", 'http')
     SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI", 'sqlite:///nuudel.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.getenv("SECRET_KEY")
