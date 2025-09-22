@@ -77,7 +77,7 @@ def login():
                     send_confirmation_email(user_in_db.email)
                     flash('Вам отправлен email, перейдите по ссылке для активации аккаунта', 'alert alert-info mt-3')
                     return redirect(url_for('home'))
-                if user_in_db:
+                elif user_in_db:
                     return render_template("login.html", feedback=f"Ползователь с {email} уже существует!")
             except:
                 return render_template("login.html", error="Ошибка базы данных")
