@@ -46,6 +46,7 @@ def login_required(view):
         elif g.user.email_confirmed:
             return view(**kwargs)
         else:
+            send_confirmation_email(g.user.email)
             return render_template("home.html", feedback="Вам отправлен email, перейдите по ссылке для активации аккаунта.")
     return wrapped_view
 
