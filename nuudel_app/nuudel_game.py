@@ -35,18 +35,6 @@ class Nuudel_game():
         self.nuudel_word = ''.join(random.sample(self.word, len(self.word)))
         return self.nuudel_word
 
-    def check_answer(self, answer_str):
-        """
-        input:
-            answer_str: str, ответ пользователя
-
-        output:
-            score: int/None
-        """
-        if answer_str == self.word:
-            return 10
-        return self.word
-
     def update_category(self, category_input, difficulty):    
         existing = Category.query.filter_by(category=category_input).first()
         if existing:

@@ -220,9 +220,12 @@ def user_table_page():
 @login_required
 def play():
     category = request.form.get("category", "animals")
+    session["category"] = category
     print(category)
     try:
         scrambled_word = game.get_nuudel_word(category)
+        session["scrambled_word"] = scrambled_word
+        session["word"] = game.word
 
         if scrambled_word == "error: Not_category":
             return render_template("nuudel_play.html", error="Нет слов в этой категории.")
@@ -230,7 +233,7 @@ def play():
         if scrambled_word == "error: Not_word":
             return render_template("nuudel_play.html", error="Нет слов в этой категории.")
         
-        return render_template("nuudel_play.html", scrambled_word=scrambled_word, word=game.word)
+        return render_template("nuudel_play.html", scrambled_word=scrambled_word, word=session["word"])
     
     except Exception as er:
         print(er)
@@ -242,8 +245,8 @@ def submit_answer():
     guess = request.form.get("guess", "")
     hinweis_anzal = request.form.get("hinweis_anzal", "")
 
-    if game.check_answer(guess.lower()) == 10:
-        difficulty = Category.query.filter_by(category=game.category).first()
+    if session["word"].lower() == guess.lower():
+        difficulty = Category.query.filter_by(category=session["category"]).first()
         score = 10 - 5 * int(hinweis_anzal or 0)
         if difficulty.difficulty == "medium":
             score += 10
@@ -260,11 +263,11 @@ def submit_answer():
                 db.session.commit()
             except Exception as e:
                 print(e)
-                return render_template("nuudel_play_success.html", error="Ошибка базы данных", category=game.category)
-        return render_template("nuudel_play_success.html", success=success, category=game.category)
+                return render_template("nuudel_play_success.html", error="Ошибка базы данных", category=session["category"])
+        return render_template("nuudel_play_success.html", success=success, category=session["category"])
     else:
         feedback = "Попробуй ещё раз"
-        return render_template("nuudel_play.html", scrambled_word=game.nuudel_word, feedback=feedback)
+        return render_template("nuudel_play.html", scrambled_word=session["scrambled_word"], feedback=feedback)
 
 if __name__ == "__main__":
     app.run(debug=True)
