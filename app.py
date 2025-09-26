@@ -7,6 +7,7 @@ from nuudel_app import create_app
 from nuudel_app.models import User, Category
 from nuudel_app import db
 from nuudel_app.nuudel_game import Nuudel_game
+from nuudel_app.game_logger import logger
 
 
 app = create_app()
@@ -23,9 +24,9 @@ def send_confirmation_email(user_email):
                   html=mail_html)
     try:
         mail.send(msg)
-        print('Письмо с подтверждением отправлено')
+        logger.info(f'Письмо с подтверждением отправлено на {user_email}')
     except Exception as e:
-        print(f"Ошибка при отправке письма: {e}")
+        logger.error(f"Ошибка при отправке письма: {e}")
 
 @app.before_request
 def load_logged_in_user():
@@ -59,7 +60,7 @@ def home():
         category_for_tabel = Category.query.all()
     except:
         return render_template("login.html", error="Ошибка базы данных")
-    print(category_for_tabel)
+    logger.debug(f"Выброна категория {category_for_tabel}")
     return render_template("home.html", category_for_tabel=category_for_tabel, feedback="Добро пожаловать!")
 
 @app.route("/login", methods=["GET", "POST"])
