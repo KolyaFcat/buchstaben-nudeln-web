@@ -21,7 +21,7 @@ def get_logger():
     # Разный формат для разных окружений
     if os.environ.get('VERCEL'):
         # Для Vercel - простой формат
-        formatter = logging.Formatter('%(levelname)s - %(message)s')
+        formatter = logging.Formatter('%(levelname)s - %(funcName)s - %(message)s')
     else:
         # Для локальной разработки - подробный формат
         formatter = logging.Formatter(

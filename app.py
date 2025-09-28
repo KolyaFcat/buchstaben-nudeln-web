@@ -67,7 +67,7 @@ def home():
 def login():
     if request.method == "POST":
         mode = request.form.get("mode")
-        print(f"Login mode: {mode}")
+        logger.debug(f"Login mode: {mode}")
         email = request.form.get("email", "")
         password = request.form.get("password", "")
         if mode == "register":
@@ -166,7 +166,7 @@ def user_update():
                 session["user_email"] = email
                 session["user_name"] = name
             except Exception as er:
-                print(er)
+                logger.error(er)
                 return render_template("user_update.html", error="Ошибка базы данных", email=session["user_email"], name=session["user_name"])
         else:
             return render_template("user_update.html", error="Пароли не совпадают")
@@ -214,7 +214,7 @@ def user_table_page():
         players = User.query.order_by(User.score.desc()).all()
     except:
         return render_template("login.html", error="Ошибка базы данных")
-    print(players)
+    logger.debug(players)
     return render_template("user_table_page.html", players=players)
 
 @app.route("/play", methods=["POST"])
@@ -222,7 +222,7 @@ def user_table_page():
 def play():
     category = request.form.get("category", "animals")
     session["category"] = category
-    print(category)
+    logger.debug(category)
     try:
         scrambled_word = game.get_nuudel_word(category)
         session["scrambled_word"] = scrambled_word
@@ -237,7 +237,7 @@ def play():
         return render_template("nuudel_play.html", scrambled_word=scrambled_word, word=session["word"])
     
     except Exception as er:
-        print(er)
+        logger.error(er)
         return render_template("nuudel_play.html", error="Ошибка базы данных")
 
 @app.route("/submit_answer", methods=["POST"])
@@ -263,7 +263,7 @@ def submit_answer():
                 user.score += score
                 db.session.commit()
             except Exception as e:
-                print(e)
+                logger.error(e)
                 return render_template("nuudel_play_success.html", error="Ошибка базы данных", category=session["category"])
         return render_template("nuudel_play_success.html", success=success, category=session["category"])
     else:
