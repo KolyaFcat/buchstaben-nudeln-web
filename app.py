@@ -19,14 +19,14 @@ def send_confirmation_email(user_email):
     token = serializer.dumps(user_email, salt='email-confirm-salt')
     confirm_url = url_for('confirm_email', token=token, _external=True)
     mail_html = render_template('email_confirmation.html', confirm_url=confirm_url)
-    msg = Message("Подтердите Email в Nuuel Game",
+    msg = Message("Bestätige deine E-Mail-Adresse im Nuuel Game.",
                   recipients=[user_email],
                   html=mail_html)
     try:
         mail.send(msg)
-        logger.info(f'Письмо с подтверждением отправлено на {user_email}')
+        logger.info(f'Eine Bestätigungs-E-Mail wurde an {user_email}')
     except Exception as e:
-        logger.error(f"Ошибка при отправке письма: {e}")
+        logger.error(f"Fehler beim Senden der E-Mail: {e}")
 
 @app.before_request
 def load_logged_in_user():
@@ -48,7 +48,7 @@ def login_required(view):
             return view(**kwargs)
         else:
             send_confirmation_email(g.user.email)
-            return render_template("home.html", feedback="Вам отправлен email, перейдите по ссылке для активации аккаунта.")
+            return render_template("home.html", feedback="Sie haben eine E-Mail erhalten. Folgen Sie dem Link, um Ihr Konto zu aktivieren.")
     return wrapped_view
 
 @app.route("/", methods=["GET", "POST"])
@@ -59,9 +59,9 @@ def home():
     try:
         category_for_tabel = Category.query.all()
     except:
-        return render_template("login.html", error="Ошибка базы данных")
-    logger.debug(f"Выброна категория {category_for_tabel}")
-    return render_template("home.html", category_for_tabel=category_for_tabel, feedback="Добро пожаловать!")
+        return render_template("login.html", error="Datenbankfehler")
+    logger.debug(f"Ausgewählte Kategorie {category_for_tabel}")
+    return render_template("home.html", category_for_tabel=category_for_tabel, feedback="Herzlich willkommen!")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -77,35 +77,35 @@ def login():
                 user_in_db = User.query.filter_by(email=email).first()
                 if user_in_db and user_in_db.email_confirmed == False:
                     send_confirmation_email(user_in_db.email)
-                    flash('Вам отправлен email, перейдите по ссылке для активации аккаунта', 'alert alert-info mt-3')
+                    flash('Sie haben eine E-Mail erhalten. Folgen Sie dem Link, um Ihr Konto zu aktivieren.', 'alert alert-info mt-3')
                     return redirect(url_for('home'))
                 elif user_in_db:
-                    return render_template("login.html", feedback=f"Ползователь с {email} уже существует!")
+                    return render_template("login.html", feedback=f"Ein Benutzer mit der E-Mail-Adresse {email} existiert schon.")
             except:
-                return render_template("login.html", error="Ошибка базы данных")
+                return render_template("login.html", error="Datenbankfehler")
             if password != confirm_password:
-                return render_template("login.html", error="Пароли не совпадают")
+                return render_template("login.html", error="Die Passwörter stimmen nicht überein.")
             hashed_password = generate_password_hash(password)
             user_data = User(email=email, name=name, password=hashed_password)
             try:
                 db.session.add(user_data)
                 db.session.commit()
             except:
-                return render_template("login.html", error="Ошибка базы данных")
+                return render_template("login.html", error="Datenbankfehler")
             session.clear()
             session["user_id"] = user_data.id
             session["user_email"] = user_data.email
             session["user_name"] = user_data.name
             session["email_confirmed"] = False
             send_confirmation_email(session["user_email"])
-            return render_template("home.html", feedback="Вам отправлен email, перейдите по ссылке для активации аккаунта.")
+            return render_template("home.html", feedback="Sie haben eine E-Mail erhalten. Folgen Sie dem Link, um Ihr Konto zu aktivieren.")
         if mode == "login":
             try:
                 user_login = User.query.filter_by(email=email).first()
             except:
-                return render_template("login.html", error="Неверный email")
+                return render_template("login.html", error="Ungültige E-Mail-Adresse")
             if not user_login:
-                return render_template("login.html", error="Пользователь не найден")
+                return render_template("login.html", error="Benutzer nicht gefunden")
             if check_password_hash(user_login.password, password):
                 session.clear()
                 session["user_id"] = user_login.id
@@ -113,7 +113,7 @@ def login():
                 session["user_name"] = user_login.name
                 return redirect(url_for("user_page"))
             else:
-                return render_template("login.html", error="Неверный пароль")
+                return render_template("login.html", error="Falsches Passwort")
     return render_template("login.html")
 
 @app.route("/logout")
@@ -131,12 +131,12 @@ def delete_account():
             db.session.delete(user)
             db.session.commit()
             session.clear()
-            flash('Аккаунт успешно удален.', 'alert alert-success mt-3')
+            flash('Konto erfolgreich gelöscht.', 'alert alert-success mt-3')
             return redirect(url_for('home'))
         except:
-            return render_template("home.html", error="Ошибка базы данных")
+            return render_template("home.html", error="Datenbankfehler")
     else:
-        return render_template("home.html", error="Пользователь не найден")
+        return render_template("home.html", error="Benutzer nicht gefunden")
 
 @app.route("/user_update", methods=["POST", "GET"])
 @login_required
@@ -152,10 +152,10 @@ def user_update():
                 user = User.query.get(session["user_id"])
 
                 if not user:
-                    return render_template("user_update.html", error="Пользователь не найден")
+                    return render_template("user_update.html", error="Benutzer nicht gefunden")
                 
                 if not check_password_hash(user.password, old_password):
-                    return render_template("user_update.html", error="Старый пароль неверный", email=session["user_email"], name=session["user_name"])
+                    return render_template("user_update.html", error="Das alte Passwort ist falsch.", email=session["user_email"], name=session["user_name"])
                 
                 user.email = email
                 user.name = name
@@ -167,9 +167,9 @@ def user_update():
                 session["user_name"] = name
             except Exception as er:
                 logger.error(er)
-                return render_template("user_update.html", error="Ошибка базы данных", email=session["user_email"], name=session["user_name"])
+                return render_template("user_update.html", error="Datenbankfehler", email=session["user_email"], name=session["user_name"])
         else:
-            return render_template("user_update.html", error="Пароли не совпадают")
+            return render_template("user_update.html", error="Die Passwörter stimmen nicht überein.")
         return redirect(url_for('user_page'))
     return render_template("user_update.html", email=session["user_email"], name=session["user_name"])
 
@@ -193,19 +193,19 @@ def confirm_email(token):
 
     except SignatureExpired: 
         session.clear()
-        flash('Срок действия ссылки истек. Пожалуйста, зарегистрируйтесь ещё раз.', 'alert alert-danger mt-3')
+        flash('Der Link ist abgelaufen. Bitte registrieren Sie sich erneut.', 'alert alert-danger mt-3')
         return redirect(url_for('login'))
     except (BadTimeSignature, Exception):
-        flash('Неверная или поврежденная ссылка для подтверждения.', 'alert alert-danger mt-3')
+        flash('Ungültiger oder defekter Verifizierungslink.', 'alert alert-danger mt-3')
         return redirect(url_for('login'))
     user = User.query.filter_by(email=email).first_or_404()
     if user.email_confirmed:
-        flash('Аккаунт уже подтвержден.', 'alert alert-info mt-3')
+        flash('Das Konto wurde erfolgreich aktiviert.', 'alert alert-info mt-3')
     else:
         user.email_confirmed = True
         db.session.commit()
         session["email_confirmed"] = True
-    return render_template('home.html', success = "Аккаунт подтвержден")
+    return render_template('home.html', success = "Das Konto aktiviert.")
 
 @app.route("/rating")
 @login_required
@@ -213,7 +213,7 @@ def user_table_page():
     try:
         players = User.query.order_by(User.score.desc()).all()
     except:
-        return render_template("login.html", error="Ошибка базы данных")
+        return render_template("login.html", error="Datenbankfehler")
     logger.debug(players)
     return render_template("user_table_page.html", players=players)
 
@@ -229,16 +229,16 @@ def play():
         session["word"] = game.word
 
         if scrambled_word == "error: Not_category":
-            return render_template("nuudel_play.html", error="Нет слов в этой категории.")
+            return render_template("nuudel_play.html", error="In dieser Kategorie gibt es keine Wörter.")
         
         if scrambled_word == "error: Not_word":
-            return render_template("nuudel_play.html", error="Нет слов в этой категории.")
+            return render_template("nuudel_play.html", error="In dieser Kategorie gibt es keine Wörter.")
         
         return render_template("nuudel_play.html", scrambled_word=scrambled_word, word=session["word"])
     
     except Exception as er:
         logger.error(er)
-        return render_template("nuudel_play.html", error="Ошибка базы данных")
+        return render_template("nuudel_play.html", error="Datenbankfehler")
 
 @app.route("/submit_answer", methods=["POST"])
 @login_required
@@ -255,19 +255,19 @@ def submit_answer():
             score += 20
         if score <= 0:
             score = 0
-            success = "Правильно! но слишком много подсказек"
+            success = "Richtig! Aber zu viele Hinweise."
         else:
             try:
-                success = f"Правильно! +{score}"
+                success = f"Richtig! +{score}"
                 user = User.query.filter_by(name=session["user_name"]).first()
                 user.score += score
                 db.session.commit()
             except Exception as e:
                 logger.error(e)
-                return render_template("nuudel_play_success.html", error="Ошибка базы данных", category=session["category"])
+                return render_template("nuudel_play_success.html", error="Datenbankfehler", category=session["category"])
         return render_template("nuudel_play_success.html", success=success, category=session["category"])
     else:
-        feedback = "Попробуй ещё раз"
+        feedback = "Versuchs noch einmal."
         return render_template("nuudel_play.html", scrambled_word=session["scrambled_word"], feedback=feedback)
 
 if __name__ == "__main__":

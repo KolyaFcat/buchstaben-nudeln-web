@@ -1,41 +1,41 @@
 {% extends "base.html" %}
 
-{% block title %}Konto Aktualisieren{% endblock %}
+{% block title %}Обновление Аккаунта{% endblock %}
 
 {% block content %}
-<h2 id="form-title">Konto Aktualisieren</h2>
+<h2 id="form-title">Обновление Аккаунта</h2>
 
 <form method="post" action="/user_update" id="auth-form">
 
   <div class="mb-3">
-    <label for="email" class="form-label">Neue Email eingeben:</label>
+    <label for="email" class="form-label">Введите новый email:</label>
     <input type="email" class="form-control" id="email" name="email" value={{ email }} required>
   </div>
 
   <div class="mb-3">
-    <label for="name" class="form-label">Neuen Namen eingeben:</label>
+    <label for="name" class="form-label">Введите новое имя:</label>
     <input type="text" class="form-control" id="name" name="name" value={{ name }} required>
   </div>
 
   <div class="mb-3">
-    <label for="password" class="form-label">Altes Passwort eingeben:</label>
+    <label for="password" class="form-label">Введите старый пароль:</label>
     <input type="password" class="form-control" id="old_password" name="old_password" required>
   </div>
 
   <div class="mb-3">
-    <label for="password" class="form-label">Neues Passwort eingeben:</label>
+    <label for="password" class="form-label">Введите новый пароль:</label>
     <input type="password" class="form-control" id="password" name="password" required>
   </div>
 
   <div class="mb-3">
-    <label for="confirm" class="form-label">Neues Passwort wiederholen:</label>
+    <label for="confirm" class="form-label">Повторите новый пароль:</label>
     <input type="password" class="form-control" id="confirm" name="confirm" required>
   </div>
 <div class="d-flex gap-3">
-  <button type="submit" class="btn btn-success" id="submit-btn">Aktualisieren</button>
+  <button type="submit" class="btn btn-success" id="submit-btn">Обновить</button>
 </form>
 <form action="/user">
-  <button type="submit" class="btn btn-danger" id="submit-btn">Abbrechen</button>
+  <button type="submit" class="btn btn-danger" id="submit-btn">Отменить</button>
 </form>
 </div>
 {% endblock %}

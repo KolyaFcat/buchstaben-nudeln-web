@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Игра{% endblock %}
+{% block title %}Spiel{% endblock %}
 
 {% block title2 %}
-<h2>Угадай слово!</h2>
+<h2>Errate das Wort!</h2>
 
-<p class="lead">Перемешанное слово:</p>
+<p class="lead">Gemischtes Wort:</p>
 <div class="display-4 mb-4">{{ scrambled_word }}</div>
-<p class="lead">Подсказка:</p>
+<p class="lead">Hinweis:</p>
 <h3 id="hint-text"></h3>
 {% endblock %}
 
@@ -15,15 +15,15 @@
 <form method="post" action="/submit_answer">
   <input type="hidden" name="hinweis_anzal" id="hinweis_anzal" value="0" class="sustem">
   <div class="mb-3">
-    <input type="text" class="form-control" name="guess" placeholder="Твой вариант..." autocomplete="off" required autofocus>
+    <input type="text" class="form-control" name="guess" placeholder="Deine Variante..." autocomplete="off" required autofocus>
   </div>
 <div class="d-flex gap-3">
-    <button type="submit" class="btn btn-success">Проверить</button>
+    <button type="submit" class="btn btn-success">Prüfen</button>
 </form>
   <form method="get" action="/">
-    <button type="submit" class="btn btn-primary">Пропустить</button>
+    <button type="submit" class="btn btn-primary">Überspringen</button>
 </form>
-<button type="button" class="btn btn-primary" onclick="hinweis()">Подсказка</button>
+<button type="button" class="btn btn-primary" onclick="hinweis()">Hinweis</button>
 </div>
 
 <p id="word" class="sustem">{{ word }}</p>

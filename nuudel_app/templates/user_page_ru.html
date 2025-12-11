@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block title2 %}
+<h2>Профиль пользователя</h2>
+{% endblock %}
+
+{% block content %}
+
+<ul class="list-group">
+  <li class="list-group-item"><strong>Имя:</strong> {{ user.name }}</li>
+  <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+  <li class="list-group-item"><strong>Пароль:</strong> {{ user.password }}</li>
+  <li class="list-group-item"><strong>Очки:</strong> {{ user.score }}</li>
+</ul>
+<div class="d-flex justify-content-center gap-3">
+  <form method="get" action="/logout">
+    <button class="btn btn-outline-primary" type="submit"><i class="bi bi-box-arrow-right"></i>Выход</button>
+  </form>
+  <form method="get" action="/user_update">
+    <button class="btn btn-outline-success" type="submit"><i class="bi bi-person-vcard-fill"></i>Изменить даные</button>
+  </form>
+  <form method="get" action="/delete_account" onsubmit="confirmDelete()">
+    <button class="btn btn-outline-danger" type="submit"><i class="bi bi-person-x"></i></i>Delete Account</button>
+  </form>
+</div>
+{% endblock %}

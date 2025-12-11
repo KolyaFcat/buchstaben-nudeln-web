@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="ru">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,13 +13,13 @@
     <div class="container">
       <a class="navbar-brand" href="/">Nuudel</a>
       <ul class="nav nav-pills">
-        <li class="nav-item"><a class="nav-link" href="/">Startseite</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">Главная</a></li>
         {% if g.user %}
-          <li class="nav-item"><a class="nav-link" href="/rating">Bewertung</a></li>
-          <li class="nav-item"><a class="nav-link" href="/user">Profil</a></li>
-          <li class="nav-item"><a class="nav-link" href="/logout">Abmelden</a></li>
+          <li class="nav-item"><a class="nav-link" href="/rating">Рейтинг</a></li>
+          <li class="nav-item"><a class="nav-link" href="/user">Профиль</a></li>
+          <li class="nav-item"><a class="nav-link" href="/logout">Выход</a></li>
         {% else %}
-          <li class="nav-item"><a class="nav-link" href="/login">Einloggen / Registrieren</a></li>
+          <li class="nav-item"><a class="nav-link" href="/login">Войти / Зарегистрироваться</a></li>
         {% endif %}
       </ul>
     </div>

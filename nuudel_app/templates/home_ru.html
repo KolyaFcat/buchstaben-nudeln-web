@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Главная{% endblock %}
 
 {% block title2 %}
-<h1>Nuudel<br>Buchstabennudeln</h1>
-<p>Wähle ein Thema und versuche das Wort zu erraten, dessen Buchstaben vermischt wurden!</p>
+<h1>Nuudel<br>лапша из букв</h1>
+<p>Выбери тему и попробуй угадать слово, буквы которого перемешались!</p>
 {% endblock %}
 
 {% block content %}
@@ -12,8 +12,8 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Thema</th>
-        <th>Schwierigkeit</th>
+        <th>Тема</th>
+        <th>Сложность</th>
       </tr>
     </thead>
     <tbody>
@@ -30,6 +30,6 @@
       {% endfor %}
     </tbody>
   </table>
-  <button type="submit" class="btn btn-primary mt-3">Spiel starten</button>
+  <button type="submit" class="btn btn-primary mt-3">Начать игру</button>
 </form>
 {% endblock %}

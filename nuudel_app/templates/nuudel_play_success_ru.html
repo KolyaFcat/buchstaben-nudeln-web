@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Игра{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center gap-3">
+  <a href="{{ url_for('home') }}" class="btn btn-outline-secondary btn-lg">🏠 На главную</a>
+
+  <form method="post" action="/play">
+    <input type="hidden" name="category" value="{{ category }}">
+    <button type="submit" class="btn btn-outline-primary btn-lg" autofocus>➡️ Далше</button>
+  </form>
+</div>
+{% endblock %}
