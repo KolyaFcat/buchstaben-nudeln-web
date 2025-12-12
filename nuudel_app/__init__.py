@@ -23,22 +23,24 @@ def create_app():
 
         db.create_all()  # Create database tables
         animals = [
-            "собака", "кошка", "лошадь", "корова", "свинья",
-            "овца", "коза", "курица", "утка", "гусь",
-            "тигр", "лев", "волк", "медведь", "заяц",
-            "лось", "белка", "слон", "жираф"
+            "Hund", "Katze", "Pferd", "Kuh", "Schwein",
+            "Schaf", "Ziege", "Huhn", "Ente", "Gans",
+            "Tiger", "Löwe", "Wolf", "Bär", "Hase",
+            "Elch", "Eichhörnchen", "Elefant", "Giraffe"
         ]
+
         tools = [
-            "молоток", "отвёртка", "пила", "гвоздодёр", "пассатижи",
-            "шуруповёрт", "дрель", "стаместка", "рубанок",
-            "напильник", "штангенциркуль", "лом", "паяльник",
-            "ножовка", "уровень", "рулетка"
+            "Hammer", "Schraubenzieher", "Säge", "Brecheisen", "Zange",
+            "Akkuschrauber", "Bohrmaschine", "Stechbeitel", "Hobel",
+            "Feile", "Messschieber", "Stemmeisen", "Lötkolben",
+            "Metallsäge", "Wasserwaage", "Maßband"
         ]
+
         kitchen_items = [
-            "кастрюля", "сковорода", "чайник", "тарелка", "чашка",
-            "ложка", "вилка", "нож", "миска",
-            "терка", "половник", "дуршлаг", "холодильник", "духовка",
-            "плита", "микроволновка", "блендер"
+            "Topf", "Pfanne", "Wasserkocher", "Teller", "Tasse",
+            "Löffel", "Gabel", "Messer", "Schüssel",
+            "Reibe", "Schöpflöffel", "Sieb", "Kühlschrank", "Backofen",
+            "Herd", "Mikrowelle", "Mixer"
         ]
         gm = Nuudel_game()
 
