@@ -28,3 +28,10 @@
     /* color: #004085;          Тёмно-синий текст */
     /* border: 1px solid #b8daff; Синяя рамка */
 /* } */
+
+@media (max-width: 576px) {
+  main {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}

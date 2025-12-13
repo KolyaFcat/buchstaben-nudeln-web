@@ -9,29 +9,49 @@
   <link href="{{ url_for('static', filename='css/main_css.css') }}" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+
+  <!-- ✅ NAVBAR: бургер на телефоне -->
+  <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
     <div class="container">
+
       <a class="navbar-brand" href="/">Nuudel</a>
-      <ul class="nav nav-pills">
-        <li class="nav-item"><a class="nav-link" href="/">Startseite</a></li>
-        {% if g.user %}
-          <li class="nav-item"><a class="nav-link" href="/rating">Bewertung</a></li>
-          <li class="nav-item"><a class="nav-link" href="/user">Profil</a></li>
-          <li class="nav-item"><a class="nav-link" href="/logout">Abmelden</a></li>
-        {% else %}
-          <li class="nav-item"><a class="nav-link" href="/login">Einloggen / Registrieren</a></li>
-        {% endif %}
-      </ul>
+
+      <!-- ☰ КНОПКА ТОЛЬКО НА ТЕЛЕФОНЕ -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- МЕНЮ -->
+      <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav ms-auto nav nav-pills">
+          <li class="nav-item"><a class="nav-link" href="/">Startseite</a></li>
+
+          {% if g.user %}
+            <li class="nav-item"><a class="nav-link" href="/rating">Bewertung</a></li>
+            <li class="nav-item"><a class="nav-link" href="/user">Profil</a></li>
+            <li class="nav-item"><a class="nav-link" href="/logout">Abmelden</a></li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="/login">Einloggen / Registrieren</a></li>
+          {% endif %}
+        </ul>
+      </div>
+
     </div>
   </nav>
 
+  <!-- ✅ MAIN -->
   <main class="container">
     <div class="row">
-      <div class="col-4 mx-auto">
+
+      <!-- 📱 col-12 → 100% -->
+      <!-- 💻 col-md-4 mx-auto → как ты хотел -->
+      <div class="col-12 col-md-4 mx-auto"> <!-- ✅ ИЗМЕНЕНО -->
+
         {% block title2 %}{% endblock %}
+
         {% if success %}
           <div class="alert alert-success mt-3">
-          {{ success }}
+            {{ success }}
           </div>
         {% endif %}
 
@@ -58,13 +78,14 @@
         {% endwith %}
 
         {% block content %}{% endblock %}
+
       </div>
     </div>
   </main>
 
   {% block scripts %}
-  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
-  <script src="{{ url_for('static', filename='js/main.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/main.js')}}"></script>
   {% endblock %}
 </body>
 </html>
