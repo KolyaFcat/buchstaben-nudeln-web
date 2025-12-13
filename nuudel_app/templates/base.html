@@ -2,56 +2,36 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- уже отлично -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Nuudel{% endblock %}</title>
   <link href="{{ url_for('static', filename='css/bootstrap-icons.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='css/main_css.css') }}" rel="stylesheet">
 </head>
 <body>
-
-  <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
     <div class="container">
-
       <a class="navbar-brand" href="/">Nuudel</a>
-
-      <!-- ✅ ADDED: мобильная кнопка -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- Navigation -->
-      <div class="collapse navbar-collapse" id="navbarMenu"> <!-- ADDED -->
-        <ul class="navbar-nav ms-auto nav nav-pills"> <!-- ADDED ms-auto -->
-          <li class="nav-item"><a class="nav-link" href="/">Startseite</a></li>
-
-          {% if g.user %}
-            <li class="nav-item"><a class="nav-link" href="/rating">Bewertung</a></li>
-            <li class="nav-item"><a class="nav-link" href="/user">Profil</a></li>
-            <li class="nav-item"><a class="nav-link" href="/logout">Abmelden</a></li>
-          {% else %}
-            <li class="nav-item"><a class="nav-link" href="/login">Einloggen / Registrieren</a></li>
-          {% endif %}
-        </ul>
-      </div>
-
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a class="nav-link" href="/">Startseite</a></li>
+        {% if g.user %}
+          <li class="nav-item"><a class="nav-link" href="/rating">Bewertung</a></li>
+          <li class="nav-item"><a class="nav-link" href="/user">Profil</a></li>
+          <li class="nav-item"><a class="nav-link" href="/logout">Abmelden</a></li>
+        {% else %}
+          <li class="nav-item"><a class="nav-link" href="/login">Einloggen / Registrieren</a></li>
+        {% endif %}
+      </ul>
     </div>
   </nav>
 
-  <!-- MAIN -->
   <main class="container">
-    <div class="row justify-content-center"> <!-- ADDED center alignment -->
-      
-      <!-- BEFORE: col-4 (слишком мало для телефона) -->
-      <!-- NOW: col-12 on mobile, col-md-6 on desktop -->
-      <div class="col-12 col-md-6"> <!-- ADDED responsive -->
-        
+    <div class="row">
+      <div class="col-4 mx-auto">
         {% block title2 %}{% endblock %}
-
         {% if success %}
           <div class="alert alert-success mt-3">
-            {{ success }}
+          {{ success }}
           </div>
         {% endif %}
 
@@ -78,14 +58,13 @@
         {% endwith %}
 
         {% block content %}{% endblock %}
-
       </div>
     </div>
   </main>
 
   {% block scripts %}
-    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/main.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/main.js')}}"></script>
   {% endblock %}
 </body>
 </html>
