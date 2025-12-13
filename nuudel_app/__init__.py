@@ -44,6 +44,7 @@ def create_app():
         ]
         gm = Nuudel_game()
 
+        gm.clean_table_category_word()  # Очиистка таблиц
         print(gm.update_category("animals", "easy"))
         print(gm.update_category("kitchen", "medium"))
         print(gm.update_category("tools", "hard"))

@@ -1,3 +1,4 @@
+from sqlalchemy import text
 from nuudel_app import db, create_app
 from nuudel_app.models import Word, Category
 import random
@@ -59,6 +60,10 @@ class Nuudel_game():
                 update_wors += 1
         self.db.session.commit()
         return f"update_word status: success  update_wors: {update_wors}"
+    
+    def clean_table_category_word(self):
+        self.db.session.execute(text("TRUNCATE TABLE word, category CASCADE")) 
+        self.db.session.commit()
     
 if __name__ == "__main__":
     app = create_app()
